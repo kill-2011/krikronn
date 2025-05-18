@@ -1,0 +1,13 @@
+body{
+    background-color: blueviolet;
+}
+label,span{
+    font-family: cursive;
+    font-size: 50px;
+}
+.num{
+    font-size: 24px;
+    color: rgb(0, 36, 134);
+    font-weight: 700;
+    text-align: center;
+}

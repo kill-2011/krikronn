@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Змійка</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
+    canvas {
+      display: block;
+      margin: 10px auto;
+      background: #000;
+      border: 2px solid #fff;
+    }
+    #menu, #game-over, #shop, #settings {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      background: #444;
+      color: white;
+      cursor: pointer;
+    }
+    #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    .shop-skin {
+      border: 2px solid white;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .shop-skin.active {
+      background: rgb(84, 172, 67);
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Змійка</h1>
+  <canvas id="game" width="400" height="400"></canvas>
+  <div id="menu">
+    <button onclick="startGame()">Почати гру</button>
+    <button onclick="openShop()">Магазин</button>
+    <button onclick="openSettings()">Налаштування</button>
+    <div id="score-label"></div>
+  </div>
+  <div id="game-over">
+    <h2 id="game-over-text"></h2>
+    <button onclick="startGame()">Грати знову</button>
+    <button onclick="openMenu()">Меню</button>
+    <button onclick="openShop()">Магазин</button>
+  </div>
+  <div id="shop">
+    <h2>Магазин скінів</h2>
+    <div id="skins"></div>
+    <button onclick="closeShop()">Назад</button>
+  </div>
+  <div id="settings">
+    <h2>Налаштування</h2>
+    <label>Мова:
+      <select id="language" onchange="changeLanguage(this.value)">
+        <option value="uk">Українська</option>
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+      </select>
+    </label>
+    <button onclick="resetGameData()">Скинути дані гри</button>
+    <button onclick="closeSettings()">Назад</button>
+  </div>
+  <div id="controls">
+    <button onclick="setDirection('left')">◀️</button>
+    <button onclick="setDirection('up')">🔼</button>
+    <button onclick="setDirection('down')">🔽</button>
+    <button onclick="setDirection('right')">▶️</button>
+  </div>
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 20;
+    let snake = [{ x: 10, y: 10 }];
+    let apple = { x: 15, y: 15 };
+    let dx = 0, dy = 0;
+    let score = 0;
+    let totalScore = parseInt(localStorage.getItem('totalScore')) || 0;
+    let interval;
+
+    let selectedSkin = localStorage.getItem('skin') || 'green';
+    let boughtSkins = JSON.parse(localStorage.getItem('boughtSkins')) || ['green'];
+
+    const skinColors = {
+      green: '#0f0',
+      yellow: '#ff0',
+      purple: '#a0f',
+      pink: '#f0c',
+      blue: '#00f',
+      red: '#f00'
+    };
+
+    function drawPixel(x, y, colorName) {
+      ctx.fillStyle = skinColors[colorName] || '#0f0';
+      ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const part of snake) drawPixel(part.x, part.y, selectedSkin);
+      drawPixel(apple.x, apple.y, 'red');
+    }
+
+    function gameLoop() {
+      const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+      if (head.x < 0 || head.y < 0 || head.x >= canvas.width / gridSize || head.y >= canvas.height / gridSize || snake.some(s => s.x === head.x && s.y === head.y)) {
+        endGame();
+        return;
+      }
+      snake.unshift(head);
+      if (head.x === apple.x && head.y === apple.y) {
+        score++;
+        totalScore++;
+        localStorage.setItem('totalScore', totalScore);
+        apple = {
+          x: Math.floor(Math.random() * (canvas.width / gridSize)),
+          y: Math.floor(Math.random() * (canvas.height / gridSize))
+        };
+      } else {
+        snake.pop();
+      }
+      draw();
+    }
+
+    function startGame() {
+      snake = [{ x: 10, y: 10 }];
+      dx = 1; dy = 0;
+      score = 0;
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game-over').style.display = 'none';
+      interval = setInterval(gameLoop, 150);
+    }
+
+    function endGame() {
+      clearInterval(interval);
+      document.getElementById('game-over').style.display = 'flex';
+      document.getElementById('game-over-text').innerText = `Гру завершено! Очки: ${score}`;
+      document.getElementById('score-label').innerText = `Загальні очки: ${totalScore}`;
+    }
+
+    function openMenu() {
+      document.getElementById('menu').style.display = 'flex';
+      document.getElementById('game-over').style.display = 'none';
+      document.getElementById('score-label').innerText = `Загальні очки: ${totalScore}`;
+    }
+
+    function openShop() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game-over').style.display = 'none';
+      document.getElementById('shop').style.display = 'flex';
+
+      const skinsDiv = document.getElementById('skins');
+      skinsDiv.innerHTML = '';
+      const skins = [
+        { color: 'green', cost: 0 },
+        { color: 'yellow', cost: 25 },
+        { color: 'purple', cost: 25 },
+        { color: 'pink', cost: 25 },
+        { color: 'blue', cost: 25 }
+      ];
+      skins.forEach(({ color, cost }) => {
+        const btn = document.createElement('button');
+        btn.className = 'shop-skin' + (selectedSkin === color ? ' active' : '');
+        btn.innerText = boughtSkins.includes(color)
+          ? `Вибрати ${color}`
+          : `Купити ${color} (${cost} очок)`;
+        btn.onclick = () => {
+          if (!boughtSkins.includes(color)) {
+            if (totalScore >= cost) {
+              totalScore -= cost;
+              boughtSkins.push(color);
+              localStorage.setItem('boughtSkins', JSON.stringify(boughtSkins));
+              localStorage.setItem('totalScore', totalScore);
+            } else {
+              alert('Недостатньо очок!');
+              return;
+            }
+          }
+          selectedSkin = color;
+          localStorage.setItem('skin', selectedSkin);
+          openShop();
+        };
+        skinsDiv.appendChild(btn);
+      });
+    }
+
+    function closeShop() {
+      document.getElementById('shop').style.display = 'none';
+      openMenu();
+    }
+
+    function openSettings() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('settings').style.display = 'flex';
+      document.getElementById('language').value = localStorage.getItem('lang') || 'uk';
+    }
+
+    function closeSettings() {
+      document.getElementById('settings').style.display = 'none';
+      openMenu();
+    }
+
+    function resetGameData() {
+      if (confirm('Справді очистити всі дані?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    function changeLanguage(lang) {
+      localStorage.setItem('lang', lang);
+      alert('Мова змінена: ' + lang);
+
+      const texts = {
+        uk: {
+          startGame: 'Почати гру',
+          shop: 'Магазин',
+          settings: 'Налаштування',
+          playAgain: 'Грати знову',
+          back: 'Назад',
+          language: 'Мова',
+          resetGame: 'Скинути дані гри',
+          gameOver: 'Гру завершено!',
+          selectSkin: 'Вибрати',
+          buySkin: 'Купити',
+          insufficientPoints: 'Недостатньо очок!'
+        },
+        ru: {
+          startGame: 'Начать игру',
+          shop: 'Магазин',
+          settings: 'Настройки',
+          playAgain: 'Играть снова',
+          back: 'Назад',
+          language: 'Язык',
+          resetGame: 'Сбросить данные игры',
+          gameOver: 'Игра окончена!',
+          selectSkin: 'Выбрать',
+          buySkin: 'Купить',
+          insufficientPoints: 'Недостаточно очков!'
+        },
+        en: {
+          startGame: 'Start Game',
+          shop: 'Shop',
+          settings: 'Settings',
+          playAgain: 'Play Again',
+          back: 'Back',
+          language: 'Language',
+          resetGame: 'Reset Game Data',
+          gameOver: 'Game Over!',
+          selectSkin: 'Select',
+          buySkin: 'Buy',
+          insufficientPoints: 'Not enough points!'
+        }
+      };
+
+      const langText = texts[lang];
+      document.querySelector('[onclick="startGame()"]').innerText = langText.startGame;
+      document.querySelector('[onclick="openShop()"]').innerText = langText.shop;
+      document.querySelector('[onclick="openSettings()"]').innerText = langText.settings;
+      document.querySelector('[onclick="startGame()"]').innerText = langText.playAgain;
+      document.querySelector('[onclick="closeShop()"]').innerText = langText.back;
+      document.querySelector('[onclick="resetGameData()"]').innerText = langText.resetGame;
+
+      document.getElementById('game-over-text').innerText = langText.gameOver;
+    }
+
+    function setDirection(dir) {
+      if (dir === 'left' && dx !== 1) { dx = -1; dy = 0; }
+      else if (dir === 'right' && dx !== -1) { dx = 1; dy = 0; }
+      else if (dir === 'up' && dy !== 1) { dx = 0; dy = -1; }
+      else if (dir === 'down' && dy !== -1) { dx = 0; dy = 1; }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') setDirection('left');
+      else if (e.key === 'ArrowRight') setDirection('right');
+      else if (e.key === 'ArrowUp') setDirection('up');
+      else if (e.key === 'ArrowDown') setDirection('down');
+    });
+
+    openMenu();
+  </script>
+</body>
+</html>

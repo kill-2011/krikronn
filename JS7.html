@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <Script>
+function checkSum(sum) {
+if (sum > 1000) {
+return true;
+  } else {
+    return('Для знижки вам необідно вибраьи ще товарів на субу більше 1000 грт.Продовжимо?');
+  }
+}
+let sum = +prompt('Вкажіть суму покупки:');
+if (isNaN(sum) || sum <= 0) {
+    alert('Будь ласка, введіть коректну суму!');
+} else if (checkSum(sum)) {
+    alert('Знижка 20% забезпечена!');
+} else {
+    alert('Нічого, у нас все одно низькі ціни!');
+}
+
+    </Script>
+</body>
+</html>

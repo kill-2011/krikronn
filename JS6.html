@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS6</title>
+</head>
+<body>
+    <script>
+       let numUser;
+       let numX=75;
+       do { numUser = prompt("вгадайте число від 0 до 100",0);
+       if (numUser===null) {
+       alert("ми чекали від вас число");
+       } else if (+numUser>numX) {
+       alert("ваше число менше");
+       } else if (+numUser<numX) {
+       alert("ваше число більше");
+       } else {
+       alert("ура ви вгадали" +numX); }
+       } while ( numUser != numX && numUser != null) ;
+    </script>
+</body>
+</html>

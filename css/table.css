@@ -1,0 +1,51 @@
+body{
+	background-color: lightpink;
+}
+p{
+	font-size: 50px;
+	color: purple;
+	background-color: violet;
+	text-align: center;
+}
+table{
+	border: double 2px hotpink;
+	font-size: 24px;
+	width: 50%;
+	border-collapse: separate;
+	margin: auto;
+}
+th,td{
+	border: solid 1px plum;
+	width: 25%;
+}
+tr{
+	height: 1cm;
+}
+tr:hover{
+	background-color: lightgrey;
+}
+td:hover,th:hover{
+	background-image: url(https://i.gifer.com/origin/94/94a8a454f1cf45c6ca54a88037939dcf_w200.gif);
+	text-transform: uppercase;
+	font-weight: bold;
+	text-align: center;
+	color: darkcyan;
+}
+tr:nth-child(odd){
+	background-color: lightskyblue;
+}
+tr:nth-child(even){
+	background-color: lightgoldenrodyellow;
+}
+.sc{
+	border: 2px dashed red;
+	text-align: right;
+	vertical-align: bottom;
+}
+caption{
+	text-transform: uppercase;
+	background: linear-gradient(to left,red, orange, yellow, green, blue, indigo , violet);
+	font-size: 1.2em;
+	color: lightgoldenrodyellow;
+	font-weight: bold;
+}

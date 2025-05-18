@@ -1,0 +1,59 @@
+body{
+	background-color: purple;
+}
+p{
+	font-size: 50px;
+	background-color: pink;
+	color: purple;
+	display: block;
+}
+span{
+	color: fuchsia;
+	border: 2px dashed darkred;
+	display: inline-block;
+	width: 500px;
+}
+ul{
+	background-color: magenta;
+}
+ul li{
+	background-color: pink;
+	display: inline-block;
+	font-size: 24px;
+	border: 5px dotted red;
+}
+li:hover{
+	background-color: purple;
+}
+a{
+	text-decoration: none;
+}
+#first{
+	background-color: lightpink;
+	font-size: 48px;
+	width: 500px;
+	height: 500px;
+	border-width: 30px;
+	border-style: dotted dashed;
+	border-color: pink lavender lightblue fuchsia;
+	color: blueviolet;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#second{
+	background-color: lavenderblush;
+	font-size: 24px;
+	width: 700px;
+	height: 700px;
+	border-width: 30px;
+	margin: 50px;
+	padding: 50px;
+}
+#third,#fourth{
+	background-color: magenta;
+	width: 800px;
+	height: 200px;
+	margin: 50px;
+	padding: 50px;
+}

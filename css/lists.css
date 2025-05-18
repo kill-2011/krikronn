@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Beastly&family=Rubik+Wet+Paint&display=swap');
+body{
+	background-color: lightgreen;
+}
+p{
+	font-size: 50px;
+	background-color: green;
+	color: cyan;
+	text-align: center;
+	font-family: "Rubik Beastly", system-ui;
+}
+ul,ol,dl{
+	font-size: 24px;
+	color: purple;
+}
+.ul1 li{
+	padding-left: 10px;
+}
+.ul2 li::marker{
+	color: hotpink;
+	font-size: 1.1em;
+}
+ol{
+	margin-left: 100px;
+}
+@counter-style emoji {
+  system: cyclic;
+  symbols: 😀 👻 🦄 🤖 🎃 😹 👋 👀 💋;
+  suffix: " ";
+}
+
+ul.ul3 {
+  list-style: emoji;
+}
+dl{
+	font-family: "Rubik Wet Paint", system-ui;
+}

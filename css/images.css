@@ -1,0 +1,40 @@
+body{
+	background-color: lightslategrey;
+	background-image: url(https://i.gifer.com/4CYX.gif);
+background-size: 200px;
+background-repeat: no-repeat;
+background-position: 95% 90%;
+background-attachment: fixed;
+}
+p{
+	font-size: 0.9in;
+	color: darkkhaki;
+	background-image: url(https://i.gifer.com/3QAe.gif);
+	background-size: cover;
+}
+#d1{
+	width: 500px;
+	height: 500px;
+	background-image: url(https://cdn.pixabay.com/photo/2020/09/06/22/11/neptune-5550216_1280.jpg);
+background-size: cover;
+border: 30px groove teal;
+}
+#d2{
+	width: 400px;
+	height: 400px;
+	border: 30px solid;
+	border-image: linear-gradient(teal,grey,lavender) 30;
+	margin: 50px;
+}
+#img1{
+	width: 800px;
+	border: 30px ridge purple;
+	margin-bottom: 50px;
+}
+#img2{
+	width: 50%;
+	display: block;
+	margin: auto;
+	border-radius: 50%;
+	box-shadow: 0 0 50px hotpink;
+}

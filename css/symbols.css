@@ -1,0 +1,43 @@
+body{
+	background-color: yellow;
+}
+p{
+	font-size: 48px;
+	color: green;
+}
+.p1{
+	color: darkmagenta;
+	background-color: mediumpurple;
+}
+.p2{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.p3{
+	font-family: Helvetica, Verdana, Arial,  sans-serif;
+}
+.p4{
+	font-family: Georgia, Times, "Times New Roman",  serif;
+}
+.p5{
+	font-family: "Lucida Console", Courier, monospace;
+}
+.p6{
+	font-family: cursive;
+}
+.p7{
+ font-family: "Kablammo", system-ui; 
+ text-shadow: 0 0 10px violet;
+}
+.p8{
+	 font-family: "Rubik Scribble", system-ui;
+text-shadow: 0 0 10px orange;
+}
+.p9{
+	font-family: "Rubik Maps", system-ui;
+}
+.p10{
+	font-family: "Rubik Moonrocks", sans-serif;
+}
+.p11{
+	font-family: "Pacifico", cursive;
+}
